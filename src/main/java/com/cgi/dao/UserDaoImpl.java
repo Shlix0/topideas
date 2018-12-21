@@ -34,7 +34,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User findByKey(Integer key) {
+	public User findByKey(Long key) {
 		EntityManager em = null;
 		User user = null;
 		
@@ -57,7 +57,6 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public void add(User obj) {
-		User user = null;
 		EntityManager em = null;
 		
 		try {
@@ -121,7 +120,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteByKey(Integer key) {
+	public void deleteByKey(Long key) {
 		User user = null;
 		EntityManager em = null;
 		try {

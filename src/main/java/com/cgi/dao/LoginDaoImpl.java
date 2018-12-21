@@ -6,22 +6,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.cgi.model.User;
+import com.cgi.model.Login;
 import com.cgi.utils.ContextDB;
 
-public class LoginDaoImpl implements UserDao {
+public class LoginDaoImpl implements LoginDao {
 
 	@Override
-	public List<User> findAll() {
+	public List<Login> findAll() {
 		EntityManager em = null;
-		List<User> users = null;
+		List<Login> logins = null;
 		
 		try {
-			users = new ArrayList<User>();
+			logins = new ArrayList<Login>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
 			Query query = em.createQuery("select u from User u");
-			users = query.getResultList();
+			logins = query.getResultList();
 
 
 		} catch (Exception e) {
@@ -30,19 +30,19 @@ public class LoginDaoImpl implements UserDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return users;
+		return logins;
 	}
 
 	@Override
-	public User findByKey(Integer key) {
+	public Login findByKey(Long key) {
 		EntityManager em = null;
-		User user = null;
+		Login login = null;
 		
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 			em.getTransaction().begin();
 			
-			user = em.find(User.class, key);
+			login = em.find(Login.class, key);
 			
 			em.getTransaction().commit();
 			
@@ -52,12 +52,11 @@ public class LoginDaoImpl implements UserDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return user;
+		return login;
 	}
 
 	@Override
-	public void add(User obj) {
-		User user = null;
+	public void add(Login obj) {
 		EntityManager em = null;
 		
 		try {
@@ -77,15 +76,15 @@ public class LoginDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User update(User obj) {
-		User user = null;
+	public Login update(Login obj) {
+		Login login = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, obj.getId());
+			login = em.find(Login.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(user != null) em.merge(obj);
+			if(login != null) em.merge(obj);
 			
 			em.getTransaction().commit();
 			
@@ -100,16 +99,16 @@ public class LoginDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void delete(User obj) {
-		User user = null;
+	public void delete(Login obj) {
+		Login login = null;
 		EntityManager em = null;
 		try {
 			
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, obj.getId());
+			login = em.find(Login.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(user != null) em.remove(user) ;
+			if(login != null) em.remove(login) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {
@@ -121,15 +120,15 @@ public class LoginDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteByKey(Integer key) {
-		User user = null;
+	public void deleteByKey(Long key) {
+		Login login = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, key);
+			login = em.find(Login.class, key);
 			
 			em.getTransaction().begin();
-			if(user != null) em.remove(user) ;
+			if(login != null) em.remove(login) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {

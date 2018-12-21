@@ -6,22 +6,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.cgi.model.Role;
+import com.cgi.model.Category;
 import com.cgi.utils.ContextDB;
 
-public class RoleDaoImpl implements RoleDao {
+public class CategoryDaoImpl implements CategoryDao {
 
 	@Override
-	public List<Role> findAll() {
+	public List<Category> findAll() {
 		EntityManager em = null;
-		List<Role> roles = null;
+		List<Category> categories = null;
 		
 		try {
-			roles = new ArrayList<Role>();
+			categories = new ArrayList<Category>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
 			Query query = em.createQuery("select u from User u");
-			roles = query.getResultList();
+			categories = query.getResultList();
 
 
 		} catch (Exception e) {
@@ -30,19 +30,19 @@ public class RoleDaoImpl implements RoleDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return roles;
+		return categories;
 	}
 
 	@Override
-	public Role findByKey(Long key) {
+	public Category findByKey(Long key) {
 		EntityManager em = null;
-		Role role = null;
+		Category category = null;
 		
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 			em.getTransaction().begin();
 			
-			role = em.find(Role.class, key);
+			category = em.find(Category.class, key);
 			
 			em.getTransaction().commit();
 			
@@ -52,11 +52,11 @@ public class RoleDaoImpl implements RoleDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return role;
+		return category;
 	}
 
 	@Override
-	public void add(Role obj) {
+	public void add(Category obj) {
 		EntityManager em = null;
 		
 		try {
@@ -76,15 +76,15 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public Role update(Role obj) {
-		Role role = null;
+	public Category update(Category obj) {
+		Category category = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			role = em.find(Role.class, obj.getId());
+			category = em.find(Category.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(role != null) em.merge(obj);
+			if(category != null) em.merge(obj);
 			
 			em.getTransaction().commit();
 			
@@ -99,16 +99,16 @@ public class RoleDaoImpl implements RoleDao {
 	}
 
 	@Override
-	public void delete(Role obj) {
-		Role role = null;
+	public void delete(Category obj) {
+		Category category = null;
 		EntityManager em = null;
 		try {
 			
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			role = em.find(Role.class, obj.getId());
+			category = em.find(Category.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(role != null) em.remove(role) ;
+			if(category != null) em.remove(category) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {
@@ -121,14 +121,14 @@ public class RoleDaoImpl implements RoleDao {
 
 	@Override
 	public void deleteByKey(Long key) {
-		Role role = null;
+		Category category = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			role = em.find(Role.class, key);
+			category = em.find(Category.class, key);
 			
 			em.getTransaction().begin();
-			if(role != null) em.remove(role) ;
+			if(category != null) em.remove(category) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {

@@ -6,22 +6,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.cgi.model.User;
+import com.cgi.model.Idea;
 import com.cgi.utils.ContextDB;
 
-public class IdeaDaoImpl implements UserDao {
+public class IdeaDaoImpl implements IdeaDao {
 
 	@Override
-	public List<User> findAll() {
+	public List<Idea> findAll() {
 		EntityManager em = null;
-		List<User> users = null;
+		List<Idea> ideas = null;
 		
 		try {
-			users = new ArrayList<User>();
+			ideas = new ArrayList<Idea>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
 			Query query = em.createQuery("select u from User u");
-			users = query.getResultList();
+			ideas = query.getResultList();
 
 
 		} catch (Exception e) {
@@ -30,19 +30,19 @@ public class IdeaDaoImpl implements UserDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return users;
+		return ideas;
 	}
 
 	@Override
-	public User findByKey(Integer key) {
+	public Idea findByKey(Long key) {
 		EntityManager em = null;
-		User user = null;
+		Idea idea = null;
 		
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 			em.getTransaction().begin();
 			
-			user = em.find(User.class, key);
+			idea = em.find(Idea.class, key);
 			
 			em.getTransaction().commit();
 			
@@ -52,12 +52,11 @@ public class IdeaDaoImpl implements UserDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return user;
+		return idea;
 	}
 
 	@Override
-	public void add(User obj) {
-		User user = null;
+	public void add(Idea obj) {
 		EntityManager em = null;
 		
 		try {
@@ -77,15 +76,15 @@ public class IdeaDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User update(User obj) {
-		User user = null;
+	public Idea update(Idea obj) {
+		Idea idea = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, obj.getId());
+			idea = em.find(Idea.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(user != null) em.merge(obj);
+			if(idea != null) em.merge(obj);
 			
 			em.getTransaction().commit();
 			
@@ -100,16 +99,16 @@ public class IdeaDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void delete(User obj) {
-		User user = null;
+	public void delete(Idea obj) {
+		Idea idea = null;
 		EntityManager em = null;
 		try {
 			
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, obj.getId());
+			idea = em.find(Idea.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(user != null) em.remove(user) ;
+			if(idea != null) em.remove(idea) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {
@@ -121,15 +120,15 @@ public class IdeaDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteByKey(Integer key) {
-		User user = null;
+	public void deleteByKey(Long key) {
+		Idea idea = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, key);
+			idea = em.find(Idea.class, key);
 			
 			em.getTransaction().begin();
-			if(user != null) em.remove(user) ;
+			if(idea != null) em.remove(idea) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {

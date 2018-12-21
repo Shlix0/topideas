@@ -6,22 +6,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.cgi.model.User;
+import com.cgi.model.Comment;
 import com.cgi.utils.ContextDB;
 
-public class CommentDaoImpl implements UserDao {
+public class CommentDaoImpl implements CommentDao {
 
 	@Override
-	public List<User> findAll() {
+	public List<Comment> findAll() {
 		EntityManager em = null;
-		List<User> users = null;
+		List<Comment> comments = null;
 		
 		try {
-			users = new ArrayList<User>();
+			comments = new ArrayList<Comment>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
 			Query query = em.createQuery("select u from User u");
-			users = query.getResultList();
+			comments = query.getResultList();
 
 
 		} catch (Exception e) {
@@ -30,19 +30,19 @@ public class CommentDaoImpl implements UserDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return users;
+		return comments;
 	}
 
 	@Override
-	public User findByKey(Integer key) {
+	public Comment findByKey(Long key) {
 		EntityManager em = null;
-		User user = null;
+		Comment comment = null;
 		
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 			em.getTransaction().begin();
 			
-			user = em.find(User.class, key);
+			comment = em.find(Comment.class, key);
 			
 			em.getTransaction().commit();
 			
@@ -52,12 +52,11 @@ public class CommentDaoImpl implements UserDao {
 				em.getTransaction().rollback();
 			}
 		}
-		return user;
+		return comment;
 	}
 
 	@Override
-	public void add(User obj) {
-		User user = null;
+	public void add(Comment obj) {
 		EntityManager em = null;
 		
 		try {
@@ -77,15 +76,15 @@ public class CommentDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User update(User obj) {
-		User user = null;
+	public Comment update(Comment obj) {
+		Comment comment = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, obj.getId());
+			comment = em.find(Comment.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(user != null) em.merge(obj);
+			if(comment != null) em.merge(obj);
 			
 			em.getTransaction().commit();
 			
@@ -100,16 +99,16 @@ public class CommentDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void delete(User obj) {
-		User user = null;
+	public void delete(Comment obj) {
+		Comment comment = null;
 		EntityManager em = null;
 		try {
 			
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, obj.getId());
+			comment = em.find(Comment.class, obj.getId());
 			
 			em.getTransaction().begin();
-			if(user != null) em.remove(user) ;
+			if(comment != null) em.remove(comment) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {
@@ -121,15 +120,15 @@ public class CommentDaoImpl implements UserDao {
 	}
 
 	@Override
-	public void deleteByKey(Integer key) {
-		User user = null;
+	public void deleteByKey(Long key) {
+		Comment comment = null;
 		EntityManager em = null;
 		try {
 			em = ContextDB.getInstance().getEmf().createEntityManager();
-			user = em.find(User.class, key);
+			comment = em.find(Comment.class, key);
 			
 			em.getTransaction().begin();
-			if(user != null) em.remove(user) ;
+			if(comment != null) em.remove(comment) ;
 			em.getTransaction().commit();
 			
 		} catch (Exception e) {
