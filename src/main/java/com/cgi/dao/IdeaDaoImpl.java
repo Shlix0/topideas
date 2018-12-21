@@ -142,6 +142,7 @@ public class IdeaDaoImpl implements IdeaDao {
 
 	@Override
 	public List<Idea> findAllIdeaByCategory(Long key) {
+		
 			EntityManager em = null;
 			List<Idea> ideas = null;
 			Category category;
@@ -150,8 +151,7 @@ public class IdeaDaoImpl implements IdeaDao {
 				ideas = new ArrayList<Idea>();
 				em = ContextDB.getInstance().getEmf().createEntityManager();
 
-				Query query = em.createQuery("SELECT i FROM Idea i WHERE i.category.Id = :key")
-						.setParameter("key", key);
+				Query query = em.createQuery("SELECT i FROM Idea i WHERE i.category.id = :key").setParameter("key", key);
 				ideas = query.getResultList();
 				
 			} catch (Exception e) {

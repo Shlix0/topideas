@@ -11,7 +11,9 @@ import javax.persistence.EntityManagerFactory;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.cgi.dao.CategoryDaoImpl;
 import com.cgi.dao.IdeaDaoImpl;
+import com.cgi.model.Category;
 import com.cgi.model.Idea;
 import com.cgi.utils.ContextDB;
 
@@ -19,6 +21,7 @@ public class TestIdeaDaoImpl {
 
 	EntityManagerFactory emf = null;
 	IdeaDaoImpl iDaoI = new IdeaDaoImpl();
+	CategoryDaoImpl cDaoI = new CategoryDaoImpl();
 	Idea idea;
 	Idea idea1;
 	Idea idea2;
@@ -33,9 +36,13 @@ public class TestIdeaDaoImpl {
 		idea1 = new Idea();
 		idea2 = new Idea();
 		idea3 = new Idea();
+		Category cat = new Category();
+		idea1.setCategory(cat);
+		idea2.setCategory(cat);
 		
 		em.getTransaction().begin();
 		
+		em.persist(cat);
 		em.persist(idea1);
 		em.persist(idea2);
 		em.persist(idea3);
@@ -96,5 +103,17 @@ public class TestIdeaDaoImpl {
 		iDaoI.deleteByKey(2L);
 		org.junit.Assert.assertTrue("fail to delete by key a User", iDaoI.findAll().size() == 2);
 	}
+	
+	@Test
+	public void testFindAllIdeaByCategory() {
+		
+ 
+		
+		List<Idea> ideas = iDaoI.findAllIdeaByCategory(1L);
+		
+		org.junit.Assert.assertTrue("fail to get ideas by category key", ideas.size() == 2);
+		
+	}
+	
 
 }
