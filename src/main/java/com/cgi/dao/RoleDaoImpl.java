@@ -20,7 +20,7 @@ public class RoleDaoImpl implements RoleDao {
 			roles = new ArrayList<Role>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
-			Query query = em.createQuery("select u from User u");
+			Query query = em.createQuery("select r from Role r");
 			roles = query.getResultList();
 
 

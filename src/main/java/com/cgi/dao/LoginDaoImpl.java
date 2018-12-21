@@ -20,7 +20,7 @@ public class LoginDaoImpl implements LoginDao {
 			logins = new ArrayList<Login>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
-			Query query = em.createQuery("select u from User u");
+			Query query = em.createQuery("select l from Login l");
 			logins = query.getResultList();
 
 

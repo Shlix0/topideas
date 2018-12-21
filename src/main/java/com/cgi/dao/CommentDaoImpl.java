@@ -20,7 +20,7 @@ public class CommentDaoImpl implements CommentDao {
 			comments = new ArrayList<Comment>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
-			Query query = em.createQuery("select u from User u");
+			Query query = em.createQuery("select co from Comment co");
 			comments = query.getResultList();
 
 

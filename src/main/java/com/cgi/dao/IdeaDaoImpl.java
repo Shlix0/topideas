@@ -20,7 +20,7 @@ public class IdeaDaoImpl implements IdeaDao {
 			ideas = new ArrayList<Idea>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
-			Query query = em.createQuery("select u from User u");
+			Query query = em.createQuery("select i from Idea i");
 			ideas = query.getResultList();
 
 
@@ -138,4 +138,26 @@ public class IdeaDaoImpl implements IdeaDao {
 			}
 		}
 	}
-}
+
+	@Override
+	public List<Idea> findAllIdeaByCategory() {
+			EntityManager em = null;
+			List<Idea> ideas = null;
+			
+			try {
+				ideas = new ArrayList<Idea>();
+				em = ContextDB.getInstance().getEmf().createEntityManager();
+
+				Query query = em.createQuery("select i from Idea i");
+				ideas = query.getResultList();
+
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				if (em.getTransaction() != null) {
+					em.getTransaction().rollback();
+				}
+			}
+			return ideas;
+		}
+	}

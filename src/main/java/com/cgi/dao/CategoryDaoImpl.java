@@ -20,7 +20,7 @@ public class CategoryDaoImpl implements CategoryDao {
 			categories = new ArrayList<Category>();
 			em = ContextDB.getInstance().getEmf().createEntityManager();
 
-			Query query = em.createQuery("select u from User u");
+			Query query = em.createQuery("select c from Category c");
 			categories = query.getResultList();
 
 
