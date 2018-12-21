@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import com.cgi.model.Category;
 import com.cgi.model.Idea;
 import com.cgi.utils.ContextDB;
 
@@ -140,18 +141,19 @@ public class IdeaDaoImpl implements IdeaDao {
 	}
 
 	@Override
-	public List<Idea> findAllIdeaByCategory() {
+	public List<Idea> findAllIdeaByCategory(Long key) {
 			EntityManager em = null;
 			List<Idea> ideas = null;
+			Category category;
 			
 			try {
 				ideas = new ArrayList<Idea>();
 				em = ContextDB.getInstance().getEmf().createEntityManager();
 
-				Query query = em.createQuery("select i from Idea i");
+				Query query = em.createQuery("SELECT i FROM Idea i WHERE i.category.Id = :key")
+						.setParameter("key", key);
 				ideas = query.getResultList();
-
-
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				if (em.getTransaction() != null) {
