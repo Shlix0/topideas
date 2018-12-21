@@ -1,26 +1,39 @@
 package com.cgi.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Category {
 
-	private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
 	private String title;
 	private String content;
 	
 	public Category() {
 	}
 
-	public Category(int id, String title, String content) {
-		super();
+	public Category(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+	
+	public Category(Long id, String title, String content) {
 		this.id = id;
 		this.title = title;
 		this.content = content;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -39,8 +52,9 @@ public class Category {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", title=" + title + ", content=" + content + "]";
+	}
 }

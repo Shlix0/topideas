@@ -1,20 +1,36 @@
 package com.cgi.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Role {
 
-	private int id;
-	private String name;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	
-	public Role(int id, String name) {
+	private String name;
+
+	public Role() {
+	}
+
+	public Role(String name) {
+		this.name = name;
+	}
+
+	public Role(Long id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -25,6 +41,9 @@ public class Role {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Role [id=" + id + ", name=" + name + "]";
+	}
 }

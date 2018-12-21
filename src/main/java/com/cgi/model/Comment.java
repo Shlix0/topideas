@@ -1,41 +1,61 @@
 package com.cgi.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+@Entity
 public class Comment {
 
-	private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
 	private String title;
 	private String content;
+	
+	@ManyToOne
 	private Idea idea;
-	private List<User> usersReports = new ArrayList<User>();
+	
+	@ManyToOne
+	private User user;
+	
+	@ManyToMany(mappedBy="commentsReported")
+	private Collection<User> usersReports = new HashSet<User>();
 
 	public Comment() {
 	}
 
-	public Comment(int id, String title, String content, Idea idea) {
-		super();
-		this.id = id;
+	public Comment(String title, String content, Idea idea, User user) {
 		this.title = title;
 		this.content = content;
 		this.idea = idea;
-		this.usersReports = new ArrayList<User>();
+		this.user = user;
+		this.usersReports = new HashSet<User>();
 	}
 
-	public Comment(int id, String title, String content, Idea idea, List<User> usersReports) {
+	public Comment(Long id, String title, String content, Idea idea, User user, Collection<User> usersReports) {
 		this.id = id;
 		this.title = title;
 		this.content = content;
 		this.idea = idea;
+		this.user = user;
 		this.usersReports = usersReports;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -55,14 +75,6 @@ public class Comment {
 		this.content = content;
 	}
 
-	public List<User> getUsersReports() {
-		return usersReports;
-	}
-
-	public void setUsersReports(List<User> usersReports) {
-		this.usersReports = usersReports;
-	}
-
 	public Idea getIdea() {
 		return idea;
 	}
@@ -71,4 +83,25 @@ public class Comment {
 		this.idea = idea;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Collection<User> getUsersReports() {
+		return usersReports;
+	}
+
+	public void setUsersReports(Collection<User> usersReports) {
+		this.usersReports = usersReports;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", title=" + title + ", content=" + content + ", idea=" + idea + ", user=" + user
+				+ ", usersReports=" + usersReports + "]";
+	}
 }

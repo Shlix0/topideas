@@ -2,13 +2,26 @@ package com.cgi.model;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+@Entity
 public class Idea {
 
-	private int id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	
 	private String title;
 	private String picture;
 	private String content;
@@ -16,33 +29,49 @@ public class Idea {
 	private LocalDate finishVotableDate = LocalDate.now().plusDays(7);
 	private Boolean votable = true;
 	private Boolean enable = true;
-	private User user;
+	
+	@ManyToOne
 	private Category category;
-	private List<User> usersVoteTop = new ArrayList<User>();
-	private List<User> usersVoteFlop = new ArrayList<User>();
-	private List<Comment> comments = new ArrayList<Comment>();
+	
+	@ManyToOne
+	private User user;
+	
+	@ManyToMany(mappedBy="ideasReported")
+	private Collection<User> usersReport = new HashSet<User>();
+	
+	@ManyToMany(mappedBy="voteTop")
+	private Collection<User> usersVoteTop = new HashSet<User>();
+	
+	@ManyToMany(mappedBy="voteFlop")
+	private Collection<User> usersVoteFlop = new HashSet<User>();
+	
+	@OneToMany(mappedBy="idea")
+	private Collection<Comment> comments = new HashSet<Comment>(); ;
 
 	public Idea() {
 	}
 
-	public Idea(int id, String title, String picture, String content, Date creationDate, User user, Category category) {
-		this.id = id;
+	public Idea(String title, String picture, String content, Date creationDate, LocalDate finishVotableDate,
+			Boolean votable, Boolean enable, Category category, User user) {
+		super();
 		this.title = title;
 		this.picture = picture;
 		this.content = content;
 		this.creationDate = creationDate;
-		this.user = user;
+		this.finishVotableDate = finishVotableDate;
+		this.votable = votable;
+		this.enable = enable;
 		this.category = category;
-		this.usersVoteTop = new ArrayList<User>();
-		this.usersVoteFlop = new ArrayList<User>();
-		this.comments = new ArrayList<Comment>();
-		this.votable = checkVotable();
+		this.user = user;
+		this.usersReport = new HashSet<User>();
+		this.usersVoteTop = new HashSet<User>();
+		this.usersVoteFlop = new HashSet<User>();
+		this.comments = new HashSet<Comment>();;
 	}
 
-
-	public Idea(int id, String title, String picture, String content, Date creationDate, LocalDate finishVotableDate,
-			Boolean votable, Boolean enable, User user, Category category, List<User> usersVoteTop,
-			List<User> usersVoteFlop, List<Comment> comments) {
+	public Idea(Long id, String title, String picture, String content, Date creationDate, LocalDate finishVotableDate,
+			Boolean votable, Boolean enable, Category category, User user, Collection<User> usersReport,
+			Collection<User> usersVoteTop, Collection<User> usersVoteFlop, Collection<Comment> comments) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -50,34 +79,21 @@ public class Idea {
 		this.content = content;
 		this.creationDate = creationDate;
 		this.finishVotableDate = finishVotableDate;
-		this.votable = checkVotable();
+		this.votable = votable;
 		this.enable = enable;
-		this.user = user;
 		this.category = category;
+		this.user = user;
+		this.usersReport = usersReport;
 		this.usersVoteTop = usersVoteTop;
 		this.usersVoteFlop = usersVoteFlop;
 		this.comments = comments;
 	}
 
-	
-	// -------------------------------------- ATTENTION BESOIN DE VERIFER CETTE CHOSE -------------------------------------- // 
-	public boolean checkVotable() {
-		Date finish = Date.from(this.finishVotableDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		Date now = new Date();
-		if( now.compareTo(finish) > 0)  {
-			return false;
-		}
-		else {
-			return true;
-		}
-	}
-	
-	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -113,6 +129,14 @@ public class Idea {
 		this.creationDate = creationDate;
 	}
 
+	public LocalDate getFinishVotableDate() {
+		return finishVotableDate;
+	}
+
+	public void setFinishVotableDate(LocalDate finishVotableDate) {
+		this.finishVotableDate = finishVotableDate;
+	}
+
 	public Boolean getVotable() {
 		return votable;
 	}
@@ -129,14 +153,6 @@ public class Idea {
 		this.enable = enable;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
@@ -145,28 +161,53 @@ public class Idea {
 		this.category = category;
 	}
 
-	public List<User> getUsersVoteTop() {
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Collection<User> getUsersReport() {
+		return usersReport;
+	}
+
+	public void setUsersReport(Collection<User> usersReport) {
+		this.usersReport = usersReport;
+	}
+
+	public Collection<User> getUsersVoteTop() {
 		return usersVoteTop;
 	}
 
-	public void setUsersVoteTop(List<User> usersVoteTop) {
+	public void setUsersVoteTop(Collection<User> usersVoteTop) {
 		this.usersVoteTop = usersVoteTop;
 	}
 
-	public List<User> getUsersVoteFlop() {
+	public Collection<User> getUsersVoteFlop() {
 		return usersVoteFlop;
 	}
 
-	public void setUsersVoteFlop(List<User> usersVoteFlop) {
+	public void setUsersVoteFlop(Collection<User> usersVoteFlop) {
 		this.usersVoteFlop = usersVoteFlop;
 	}
 
-	public List<Comment> getComments() {
+	public Collection<Comment> getComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setComments(Collection<Comment> comments) {
 		this.comments = comments;
 	}
 
+	@Override
+	public String toString() {
+		return "Idea [id=" + id + ", title=" + title + ", picture=" + picture + ", content=" + content
+				+ ", creationDate=" + creationDate + ", finishVotableDate=" + finishVotableDate + ", votable=" + votable
+				+ ", enable=" + enable + ", category=" + category + ", user=" + user + ", usersReport=" + usersReport
+				+ ", usersVoteTop=" + usersVoteTop + ", usersVoteFlop=" + usersVoteFlop + ", comments=" + comments
+				+ "]";
+	}
+	
 }
