@@ -48,9 +48,8 @@ public class TesttCommentDaoImpl {
 	@Test
 	public void testFindAll() {
 
-		List<Comment> comments = new ArrayList<Comment>();
+		List<Comment> comments = cDaoI.findAll();;
 
-		comments = cDaoI.findAll();
 
 		org.junit.Assert.assertTrue("fail to findAll", comments.size() == 3);
 	}
@@ -58,23 +57,41 @@ public class TesttCommentDaoImpl {
 
 	@Test
 	public void testFindByKey() {
-
+	com = cDaoI.findByKey(1L);
+	org.junit.Assert.assertTrue("fail to find by key", com != null);
 	}
 
 	@Test
 	public void testAdd() {
+		com = new Comment();
+		int sizeBefore = cDaoI.findAll().size();
+		cDaoI.add(com);
+		int sizeAfter = cDaoI.findAll().size();
+		org.junit.Assert.assertTrue("fail to add a User",sizeAfter == sizeBefore+1);
 	}
 
 	@Test
 	public void testUpdate() {
+		
+		com = cDaoI.findByKey(2L);
+		com.setTitle("testing");
+		cDaoI.update(com);
+		Comment comTest = cDaoI.findByKey(2L);
+		org.junit.Assert.assertTrue("fail to uptade a comment", comTest.getTitle().equals("testing"));
+
 	}
 
 	@Test
 	public void testDelete() {
+		com = cDaoI.findByKey(2L);
+		cDaoI.delete(com);
+		org.junit.Assert.assertTrue("fail to delete", cDaoI.findAll().size() == 2);
 	}
 
 	@Test
 	public void testDeleteByKey() {
+		cDaoI.deleteByKey(2L);
+		org.junit.Assert.assertTrue("fail to delete", cDaoI.findAll().size() == 2);
 	}
 
 }

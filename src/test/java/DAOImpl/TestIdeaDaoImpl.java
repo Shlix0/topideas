@@ -86,7 +86,7 @@ public class TestIdeaDaoImpl {
 		iDaoI.update(idea);
 		Idea ideaT = iDaoI.findByKey(2L);
 		
-		org.junit.Assert.assertTrue("fail to add a User", ideaT.getTitle().equals("joe"));
+		org.junit.Assert.assertTrue("fail to update a User", ideaT.getTitle().equals("joe"));
 	}
 
 	@Test
