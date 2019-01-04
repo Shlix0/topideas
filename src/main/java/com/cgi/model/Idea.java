@@ -26,7 +26,7 @@ public class Idea {
 	private String picture;
 	private String content;
 	private Date creationDate = new Date();
-	private LocalDate finishVotableDate = LocalDate.now().plusDays(7);
+	private LocalDate finishVotableDate;
 	private Boolean votable = true;
 	private Boolean enable = true;
 	
@@ -51,6 +51,23 @@ public class Idea {
 	public Idea() {
 	}
 
+	public Idea(String title, String picture, String content, Category category, User user) {
+		super();
+		this.title = title;
+		this.picture = picture;
+		this.content = content;
+		this.creationDate = new Date();
+		this.finishVotableDate = LocalDate.now().plusDays(7);
+		this.votable = true;
+		this.enable = true;
+		this.category = category;
+		this.user = user;
+		this.usersReport = new HashSet<User>();
+		this.usersVoteTop = new HashSet<User>();
+		this.usersVoteFlop = new HashSet<User>();
+		this.comments = new HashSet<Comment>();;
+	}
+	
 	public Idea(String title, String picture, String content, Date creationDate, LocalDate finishVotableDate,
 			Boolean votable, Boolean enable, Category category, User user) {
 		super();
